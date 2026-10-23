@@ -1,5 +1,5 @@
 import { incidents, services } from "@/data/placeholder";
-import { AlertTriangle, CheckCircle, Search, Eye } from "lucide-react";
+import { CheckCircle, Search, Eye } from "lucide-react";
 
 const severityColors: Record<string, string> = {
   critical: "bg-red-500/10 text-red-400 border-red-500/20",

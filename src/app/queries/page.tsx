@@ -1,5 +1,5 @@
 import { cypherRecipes } from "@/data/placeholder";
-import { Terminal, Copy, Play } from "lucide-react";
+import { Terminal } from "lucide-react";
 
 const categoryColors: Record<string, string> = {
   orientation: "bg-blue-500/10 text-blue-400",
