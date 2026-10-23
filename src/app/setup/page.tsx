@@ -1,5 +1,5 @@
 import { placeholderConfig, company } from "@/data/placeholder";
-import { Settings, Copy, CheckCircle, ArrowRight } from "lucide-react";
+import { Settings, ArrowRight } from "lucide-react";
 
 const steps = [
   {

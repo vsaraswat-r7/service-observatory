@@ -9,7 +9,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import Link from "next/link";
-import { services, teams, graphEdges, company } from "@/data/placeholder";
+import { services, teams, graphEdges } from "@/data/placeholder";
 import StatusBadge from "@/components/StatusBadge";
 
 export function generateStaticParams() {
