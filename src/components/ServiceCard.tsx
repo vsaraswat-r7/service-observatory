@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { Service } from "@/lib/types";
 import { useStore } from "@/lib/store";
+import { Pencil, Trash2 } from "lucide-react";
 import StatusBadge from "./StatusBadge";
 
 const langColors: Record<string, string> = {
@@ -13,7 +14,13 @@ const langColors: Record<string, string> = {
   go: "bg-cyan-500",
 };
 
-export default function ServiceCard({ service }: { service: Service }) {
+type ServiceCardProps = {
+  service: Service;
+  onEdit?: (service: Service) => void;
+  onDelete?: (id: string) => void;
+};
+
+export default function ServiceCard({ service, onEdit, onDelete }: ServiceCardProps) {
   const { teams } = useStore();
   const team = teams.find((t) => t.id === service.team);
 
@@ -53,12 +60,46 @@ export default function ServiceCard({ service }: { service: Service }) {
 
       <div className="flex items-center justify-between text-[11px] text-[var(--text-muted)]">
         <span>{service.framework}</span>
-        {team && (
-          <span className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full" style={{ background: team.color }} />
-            {team.name}
-          </span>
-        )}
+        <div className="flex items-center gap-2">
+          {team && (
+            <span className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full" style={{ background: team.color }} />
+              {team.name}
+            </span>
+          )}
+          {(onEdit || onDelete) && (
+            <span className="flex items-center gap-1 ml-2">
+              {onEdit && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    onEdit(service);
+                  }}
+                  className="p-1 rounded hover:bg-[var(--bg)] text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
+                  title="Edit service"
+                >
+                  <Pencil className="w-3.5 h-3.5" />
+                </button>
+              )}
+              {onDelete && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    if (confirm(`Delete "${service.name}"?`)) {
+                      onDelete(service.id);
+                    }
+                  }}
+                  className="p-1 rounded hover:bg-[var(--bg)] text-[var(--text-muted)] hover:text-red-400 transition-colors"
+                  title="Delete service"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </span>
+          )}
+        </div>
       </div>
     </Link>
   );
