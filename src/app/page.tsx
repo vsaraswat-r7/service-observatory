@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   Server,
   Activity,
@@ -7,6 +8,8 @@ import {
   Clock,
   Zap,
   CheckCircle,
+  Rocket,
+  X,
 } from "lucide-react";
 import { useStore } from "@/lib/store";
 import StatCard from "@/components/StatCard";
@@ -14,7 +17,7 @@ import ServiceCard from "@/components/ServiceCard";
 import GraphView from "@/components/GraphView";
 
 export default function Dashboard() {
-  const { services, incidents, teams, graphEdges, organization } = useStore();
+  const { services, incidents, teams, graphEdges, organization, onboardingDone, completeOnboarding } = useStore();
 
   const healthyCount = services.filter((s) => s.status === "healthy").length;
   const degradedCount = services.filter((s) => s.status === "degraded").length;
@@ -27,6 +30,31 @@ export default function Dashboard() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-8">
+      {/* Onboarding Banner */}
+      {!onboardingDone && (
+        <div className="flex items-center justify-between bg-[var(--accent)]/10 border border-[var(--accent)]/30 rounded-xl px-5 py-4">
+          <div className="flex items-center gap-3">
+            <Rocket className="w-5 h-5 text-[var(--accent)]" />
+            <div>
+              <p className="text-sm font-medium">Complete onboarding to set up your organization</p>
+              <Link
+                href="/onboarding"
+                className="text-sm text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors"
+              >
+                Start setup →
+              </Link>
+            </div>
+          </div>
+          <button
+            onClick={completeOnboarding}
+            className="p-1.5 rounded text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
+            title="Dismiss"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold">Dashboard</h1>

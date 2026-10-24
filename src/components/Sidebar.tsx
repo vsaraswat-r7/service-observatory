@@ -12,10 +12,12 @@ import {
   AlertTriangle,
   Users,
   Settings,
+  BookOpen,
+  Rocket,
   Telescope,
 } from "lucide-react";
 
-const links = [
+const mainLinks = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/services", label: "Services", icon: Server },
   { href: "/graph", label: "Service Graph", icon: GitBranch },
@@ -23,12 +25,30 @@ const links = [
   { href: "/tools", label: "MCP Tools", icon: Wrench },
   { href: "/incidents", label: "Incidents", icon: AlertTriangle },
   { href: "/teams", label: "Teams", icon: Users },
-  { href: "/setup", label: "Setup Guide", icon: Settings },
+];
+
+const bottomLinks = [
+  { href: "/settings", label: "Settings", icon: Settings },
+  { href: "/setup", label: "Setup Guide", icon: BookOpen },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const { organization } = useStore();
+  const { organization, onboardingDone } = useStore();
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  };
+
+  const linkCls = (href: string) => {
+    const active = isActive(href);
+    return `flex items-center gap-3 px-5 py-2.5 text-sm transition-colors ${
+      active
+        ? "text-[var(--accent)] bg-[var(--accent)]/10 border-r-2 border-[var(--accent)]"
+        : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--bg-card-hover)]"
+    }`;
+  };
 
   return (
     <aside className="fixed left-0 top-0 h-screen w-60 bg-[var(--bg-card)] border-r border-[var(--border)] flex flex-col z-50">
@@ -46,24 +66,35 @@ export default function Sidebar() {
         </Link>
       </div>
 
-      <nav className="flex-1 py-3 overflow-y-auto">
-        {links.map(({ href, label, icon: Icon }) => {
-          const active = pathname === href;
-          return (
-            <Link
-              key={href}
-              href={href}
-              className={`flex items-center gap-3 px-5 py-2.5 text-sm transition-colors ${
-                active
-                  ? "text-[var(--accent)] bg-[var(--accent)]/10 border-r-2 border-[var(--accent)]"
-                  : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--bg-card-hover)]"
-              }`}
-            >
+      <nav className="flex-1 py-3 overflow-y-auto flex flex-col">
+        {/* Main navigation */}
+        <div className="flex-1">
+          {mainLinks.map(({ href, label, icon: Icon }) => (
+            <Link key={href} href={href} className={linkCls(href)}>
               <Icon className="w-4 h-4" />
               {label}
             </Link>
-          );
-        })}
+          ))}
+        </div>
+
+        {/* Separator */}
+        <div className="mx-5 my-2 border-t border-[var(--border)]" />
+
+        {/* Bottom section */}
+        <div>
+          {!onboardingDone && (
+            <Link href="/onboarding" className={linkCls("/onboarding")}>
+              <Rocket className="w-4 h-4" />
+              Onboarding
+            </Link>
+          )}
+          {bottomLinks.map(({ href, label, icon: Icon }) => (
+            <Link key={href} href={href} className={linkCls(href)}>
+              <Icon className="w-4 h-4" />
+              {label}
+            </Link>
+          ))}
+        </div>
       </nav>
 
       <div className="p-4 border-t border-[var(--border)] text-[11px] text-[var(--text-muted)]">
