@@ -1,6 +1,6 @@
 "use client";
 
-import { services, graphEdges, teams } from "@/data/placeholder";
+import { useStore } from "@/lib/store";
 
 // Simple force-layout positions for the graph visualization
 // In production, use d3-force or react-flow
@@ -23,6 +23,7 @@ const statusColors: Record<string, string> = {
 };
 
 export default function GraphView() {
+  const { services, graphEdges, teams } = useStore();
   const serviceEdges = graphEdges.filter((e) => e.type === "CALLS_SERVICE");
 
   return (

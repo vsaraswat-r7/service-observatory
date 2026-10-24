@@ -1,7 +1,11 @@
+"use client";
+
 import GraphView from "@/components/GraphView";
-import { services, graphEdges, teams } from "@/data/placeholder";
+import { useStore } from "@/lib/store";
 
 export default function GraphPage() {
+  const { services, graphEdges } = useStore();
+
   const serviceEdges = graphEdges.filter((e) => e.type === "CALLS_SERVICE");
   const queueEdges = graphEdges.filter((e) => e.type.includes("SQS"));
   const dbEdges = graphEdges.filter((e) => e.type.includes("DB"));

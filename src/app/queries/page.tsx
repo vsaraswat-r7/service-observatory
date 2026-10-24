@@ -1,4 +1,6 @@
-import { cypherRecipes } from "@/data/placeholder";
+"use client";
+
+import { useStore } from "@/lib/store";
 import { Terminal } from "lucide-react";
 
 const categoryColors: Record<string, string> = {
@@ -10,6 +12,7 @@ const categoryColors: Record<string, string> = {
 };
 
 export default function QueriesPage() {
+  const { cypherRecipes } = useStore();
   const categories = [...new Set(cypherRecipes.map((r) => r.category))];
 
   return (

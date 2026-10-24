@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Server,
   Activity,
@@ -6,18 +8,21 @@ import {
   Zap,
   CheckCircle,
 } from "lucide-react";
-import { services, incidents, teams, graphEdges } from "@/data/placeholder";
+import { useStore } from "@/lib/store";
 import StatCard from "@/components/StatCard";
 import ServiceCard from "@/components/ServiceCard";
 import GraphView from "@/components/GraphView";
 
 export default function Dashboard() {
+  const { services, incidents, teams, graphEdges, organization } = useStore();
+
   const healthyCount = services.filter((s) => s.status === "healthy").length;
   const degradedCount = services.filter((s) => s.status === "degraded").length;
   const totalRequests = services.reduce((sum, s) => sum + s.requestsPerMin, 0);
-  const avgLatency = Math.round(
-    services.reduce((sum, s) => sum + s.avgLatencyMs, 0) / services.length
-  );
+  const avgLatency =
+    services.length > 0
+      ? Math.round(services.reduce((sum, s) => sum + s.avgLatencyMs, 0) / services.length)
+      : 0;
   const openIncidents = incidents.filter((i) => i.status !== "resolved").length;
 
   return (
@@ -26,10 +31,7 @@ export default function Dashboard() {
       <div>
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <p className="text-sm text-[var(--text-muted)] mt-1">
-          Replace with your company&apos;s services →{" "}
-          <code className="text-xs bg-[var(--bg-card)] px-1.5 py-0.5 rounded">
-            src/data/placeholder.ts
-          </code>
+          {organization.name} service overview
         </p>
       </div>
 

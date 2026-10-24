@@ -1,4 +1,4 @@
-import type { ServiceStatus } from "@/data/placeholder";
+import type { ServiceStatus } from "@/lib/types";
 
 const config: Record<ServiceStatus, { bg: string; text: string; dot: string; label: string }> = {
   healthy: { bg: "bg-green-500/10", text: "text-green-400", dot: "bg-green-400", label: "Healthy" },

@@ -1,6 +1,8 @@
+"use client";
+
 import Link from "next/link";
-import type { Service } from "@/data/placeholder";
-import { teams } from "@/data/placeholder";
+import type { Service } from "@/lib/types";
+import { useStore } from "@/lib/store";
 import StatusBadge from "./StatusBadge";
 
 const langColors: Record<string, string> = {
@@ -12,6 +14,7 @@ const langColors: Record<string, string> = {
 };
 
 export default function ServiceCard({ service }: { service: Service }) {
+  const { teams } = useStore();
   const team = teams.find((t) => t.id === service.team);
 
   return (

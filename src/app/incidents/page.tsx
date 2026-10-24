@@ -1,4 +1,6 @@
-import { incidents, services } from "@/data/placeholder";
+"use client";
+
+import { useStore } from "@/lib/store";
 import { CheckCircle, Search, Eye } from "lucide-react";
 
 const severityColors: Record<string, string> = {
@@ -15,6 +17,8 @@ const statusIcons: Record<string, React.ReactNode> = {
 };
 
 export default function IncidentsPage() {
+  const { incidents, services } = useStore();
+
   return (
     <div className="max-w-5xl mx-auto space-y-8">
       <div>

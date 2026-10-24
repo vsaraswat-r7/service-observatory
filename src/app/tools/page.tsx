@@ -1,4 +1,6 @@
-import { mcpTools } from "@/data/placeholder";
+"use client";
+
+import { useStore } from "@/lib/store";
 import {
   GitBranch,
   Search,
@@ -25,6 +27,8 @@ const iconMap: Record<string, React.ReactNode> = {
 };
 
 export default function ToolsPage() {
+  const { mcpTools } = useStore();
+
   return (
     <div className="max-w-5xl mx-auto space-y-8">
       <div>

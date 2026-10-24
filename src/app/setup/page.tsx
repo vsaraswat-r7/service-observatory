@@ -1,4 +1,6 @@
-import { placeholderConfig, company } from "@/data/placeholder";
+"use client";
+
+import { useStore } from "@/lib/store";
 import { Settings, ArrowRight } from "lucide-react";
 
 const steps = [
@@ -98,12 +100,14 @@ vercel --prod`,
 ];
 
 export default function SetupPage() {
+  const { placeholderConfig, organization } = useStore();
+
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <div>
         <h1 className="text-2xl font-bold">Setup Guide</h1>
         <p className="text-sm text-[var(--text-muted)] mt-1">
-          Get Service Observatory running for <strong>{company.name}</strong> (or your company) in 7 steps.
+          Get Service Observatory running for <strong>{organization.name}</strong> (or your company) in 7 steps.
         </p>
       </div>
 

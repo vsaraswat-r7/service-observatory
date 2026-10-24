@@ -1,7 +1,11 @@
-import { services, teams } from "@/data/placeholder";
+"use client";
+
+import { useStore } from "@/lib/store";
 import ServiceCard from "@/components/ServiceCard";
 
 export default function ServicesPage() {
+  const { services, teams } = useStore();
+
   const grouped = teams.map((team) => ({
     team,
     services: services.filter((s) => s.team === team.id),

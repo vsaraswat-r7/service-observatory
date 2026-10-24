@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useStore } from "@/lib/store";
 import {
   LayoutDashboard,
   Server,
@@ -27,6 +28,7 @@ const links = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { organization } = useStore();
 
   return (
     <aside className="fixed left-0 top-0 h-screen w-60 bg-[var(--bg-card)] border-r border-[var(--border)] flex flex-col z-50">
@@ -38,7 +40,7 @@ export default function Sidebar() {
               Service Observatory
             </div>
             <div className="text-[10px] text-[var(--text-muted)] tracking-wider uppercase">
-              Your Company Here
+              {organization.name}
             </div>
           </div>
         </Link>
@@ -66,8 +68,6 @@ export default function Sidebar() {
 
       <div className="p-4 border-t border-[var(--border)] text-[11px] text-[var(--text-muted)]">
         <div>Open Source · MIT License</div>
-        <div className="mt-1 opacity-70">Replace placeholder data →</div>
-        <div className="opacity-70">src/data/placeholder.ts</div>
       </div>
     </aside>
   );

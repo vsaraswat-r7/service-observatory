@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Server,
   Database,
@@ -9,15 +11,15 @@ import {
   ExternalLink,
 } from "lucide-react";
 import Link from "next/link";
-import { services, teams, graphEdges } from "@/data/placeholder";
+import { useParams } from "next/navigation";
+import { useStore } from "@/lib/store";
 import StatusBadge from "@/components/StatusBadge";
 
-export function generateStaticParams() {
-  return services.map((s) => ({ id: s.id }));
-}
+export default function ServiceDetailPage() {
+  const params = useParams();
+  const id = params.id as string;
+  const { services, teams, graphEdges } = useStore();
 
-export default async function ServiceDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
   const svc = services.find((s) => s.id === id);
   if (!svc) return <div className="p-8 text-red-400">Service not found: {id}</div>;
 

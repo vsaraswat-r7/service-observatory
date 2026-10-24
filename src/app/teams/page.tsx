@@ -1,16 +1,18 @@
-import { teams, services } from "@/data/placeholder";
+"use client";
+
+import { useStore } from "@/lib/store";
 import StatusBadge from "@/components/StatusBadge";
 import Link from "next/link";
 
 export default function TeamsPage() {
+  const { teams, services } = useStore();
+
   return (
     <div className="max-w-5xl mx-auto space-y-8">
       <div>
         <h1 className="text-2xl font-bold">Teams</h1>
         <p className="text-sm text-[var(--text-muted)] mt-1">
           {teams.length} teams owning {services.length} services.
-          Define your teams in{" "}
-          <code className="text-xs bg-[var(--bg-card)] px-1 py-0.5 rounded">src/data/placeholder.ts</code>
         </p>
       </div>
 

@@ -18,16 +18,9 @@ export const company = {
   slackWorkspace: "acme-corp",                 // Slack workspace name
 };
 
-// --- TEAMS ------------------------------------------------------------------
-export type Team = {
-  id: string;
-  name: string;
-  lead: string;
-  slackChannel: string;
-  oncallSchedule: string;
-  members: number;
-  color: string;   // for UI badges
-};
+// --- TYPES (re-exported from @/lib/types) ------------------------------------
+export type { Service, ServiceStatus, Team, AwsAccount, GraphEdge, Incident, CypherRecipe, McpTool, Organization, GitHubConnection } from "@/lib/types";
+import type { Service, Team, AwsAccount, GraphEdge, Incident, CypherRecipe, McpTool } from "@/lib/types";
 
 export const teams: Team[] = [
   {
@@ -60,13 +53,6 @@ export const teams: Team[] = [
 ];
 
 // --- AWS ACCOUNTS -----------------------------------------------------------
-export type AwsAccount = {
-  id: string;       // 12-digit AWS account ID
-  alias: string;    // Human-readable alias
-  environment: "production" | "staging" | "development";
-  regions: string[];
-};
-
 export const awsAccounts: AwsAccount[] = [
   {
     id: "123456789012",
@@ -83,32 +69,6 @@ export const awsAccounts: AwsAccount[] = [
 ];
 
 // --- SERVICES ---------------------------------------------------------------
-export type ServiceStatus = "healthy" | "degraded" | "down" | "unknown";
-export type Service = {
-  id: string;              // Unique service name (used as graph node ID)
-  name: string;            // Display name
-  repo: string;            // GitHub repo (org/repo)
-  team: string;            // Team ID from teams array
-  account: string;         // AWS account ID
-  port: number;
-  language: "java" | "kotlin" | "python" | "typescript" | "go";
-  framework: string;
-  status: ServiceStatus;
-  description: string;
-  entryPoints: string[];   // Controller/Listener class names
-  dependencies: string[];  // Other service IDs this depends on
-  queues: string[];        // SQS queue names
-  topics: string[];        // SNS topic names
-  databases: string[];     // DB instance names
-  s3Buckets: string[];     // S3 bucket names
-  podCount: number;
-  avgLatencyMs: number;
-  requestsPerMin: number;
-  errorRate: number;       // 0.0 to 1.0
-  lastDeploy: string;      // ISO date string
-  coveragePercent: number;
-};
-
 export const services: Service[] = [
   {
     id: "order-service",
@@ -305,13 +265,6 @@ export const services: Service[] = [
 ];
 
 // --- GRAPH RELATIONSHIPS (what connects to what) ----------------------------
-export type GraphEdge = {
-  from: string;         // service or resource ID
-  to: string;
-  type: string;         // relationship type (CALLS_SERVICE, READS_SQS, etc.)
-  label?: string;       // optional display label
-};
-
 export const graphEdges: GraphEdge[] = [
   // Service-to-service calls
   { from: "api-gateway", to: "order-service", type: "CALLS_SERVICE" },
@@ -358,18 +311,6 @@ export const graphEdges: GraphEdge[] = [
 ];
 
 // --- INCIDENTS (recent) -----------------------------------------------------
-export type Incident = {
-  id: string;
-  title: string;
-  severity: "critical" | "high" | "medium" | "low";
-  status: "resolved" | "investigating" | "monitoring";
-  service: string;
-  startedAt: string;
-  resolvedAt?: string;
-  rootCause?: string;
-  impactSummary: string;
-};
-
 export const incidents: Incident[] = [
   {
     id: "INC-2024-042",
@@ -405,15 +346,6 @@ export const incidents: Incident[] = [
 ];
 
 // --- CYPHER RECIPES (for the query playground) ------------------------------
-export type CypherRecipe = {
-  id: string;
-  name: string;
-  description: string;
-  category: "orientation" | "code" | "blast-radius" | "sql" | "dependencies";
-  query: string;
-  placeholders: { key: string; example: string; description: string }[];
-};
-
 export const cypherRecipes: CypherRecipe[] = [
   {
     id: "orientation-1",
@@ -514,16 +446,6 @@ RETURN s.id, lib.id, lib.version`,
 ];
 
 // --- MCP TOOL CONFIG (for the tools page) -----------------------------------
-export type McpTool = {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;  // lucide icon name
-  modes: { name: string; description: string; example: string }[];
-  configKey: string;   // what env/config this tool needs
-  configExample: string;
-};
-
 export const mcpTools: McpTool[] = [
   {
     id: "graph",
