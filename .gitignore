@@ -22,3 +22,9 @@ dist
 
 # vercel
 .vercel
+
+# typescript
+*.tsbuildinfo
+
+# git worktrees
+.worktrees/
